@@ -35,8 +35,8 @@ module.exports = function (app) {
     });
   });
 
-  app.put('/api/users/:id', function( req, res) {
-    db.User.update(req.body, {where: {id: req.params.id}}).then(function(dbUser) {
+  app.put('/api/users/:id', function (req, res) {
+    db.User.update(req.body, { where: { id: req.params.id } }).then(function (dbUser) {
       res.json(dbUser);
     });
   });
@@ -83,9 +83,9 @@ module.exports = function (app) {
     });
   });
 
-  app.put('/api/collections/:id', function( req, res) {
+  app.put('/api/collections/:id', function (req, res) {
     // expects an object with properties 'name', 'description', 'UserId'
-    db.Collection.update(req.body, {where: {id: req.params.id}}).then(function(dbCollection) {
+    db.Collection.update(req.body, { where: { id: req.params.id } }).then(function (dbCollection) {
       res.json(dbCollection);
     });
   });
@@ -116,8 +116,8 @@ module.exports = function (app) {
     });
   });
 
-  app.put('/api/items/:id', function( req, res) {
-    db.Item.update(req.body, {where: {id: req.params.id}}).then(function(dbItem) {
+  app.put('/api/items/:id', function (req, res) {
+    db.Item.update(req.body, { where: { id: req.params.id } }).then(function (dbItem) {
       res.json(dbItem);
     });
   });
@@ -148,8 +148,8 @@ module.exports = function (app) {
     });
   });
 
-  app.put('/api/opportunity/:id', function( req, res) {
-    db.Opportunity.update(req.body, {where: {id: req.params.id}}).then(function(dbOpportunity) {
+  app.put('/api/opportunity/:id', function (req, res) {
+    db.Opportunity.update(req.body, { where: { id: req.params.id } }).then(function (dbOpportunity) {
       res.json(dbOpportunity);
     });
   });
