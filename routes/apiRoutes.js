@@ -1,19 +1,6 @@
 var db = require('../models');
 
 module.exports = function (app) {
-  // Get all examples
-  app.get('/api/examples', function (req, res) {
-    db.Example.findAll({}).then(function (dbExamples) {
-      res.json(dbExamples);
-    });
-  });
-
-  // Create a new example
-  app.post('/api/examples', function (req, res) {
-    db.Example.create(req.body).then(function (dbExample) {
-      res.json(dbExample);
-    });
-  });
 
   // Delete an example by id
   app.delete('/api/examples/:id', function (req, res) {
@@ -22,6 +9,7 @@ module.exports = function (app) {
     });
   });
 
+  // USER API CALLS
   app.get('/api/users', function (req, res) {
     db.User.findAll({}).then(function (data) {
       res.json(data);
@@ -34,6 +22,18 @@ module.exports = function (app) {
     });
   });
 
+  app.post('/api/users', function (req, res) {
+    // expects an object with properties 'name', 'email', 'bio'
+    db.User.create(req.body).then(function (dbUser) {
+      res.json(dbUser);
+    });
+  });
+
+  // app.put('/api/users/:id', function (req, res) {
+
+  // })
+
+  // COLLECTIONS API CALLS
   app.get('/api/collections', function (req, res) {
     db.Collection.findAll({}).then(function (dbCollections) {
       res.json(dbCollections);
@@ -46,6 +46,14 @@ module.exports = function (app) {
     });
   });
 
+  app.post('/api/collections', function (req, res) {
+    // expects an object with properties 'name', 'description', 'UserId'
+    db.Collection.create(req.body).then(function (dbCollection) {
+      res.json(dbCollection);
+    });
+  });
+
+  // ITEMS API CALLSK
   app.get('/api/items', function (req, res) {
     db.Item.findAll({}).then(function (dbItems) {
       res.json(dbItems);
@@ -57,4 +65,12 @@ module.exports = function (app) {
       res.json(dbItem);
     });
   });
+
+  app.post('/api/items', function (req, res) {
+    // expects an object with properties 'name', 'imageUrl', 'description', 'UserId', 'CollectionId'
+    db.Item.create(req.body).then(function (dbItem) {
+      res.json(dbItem);
+    });
+  });
+
 };
