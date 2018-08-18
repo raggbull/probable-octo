@@ -17,7 +17,7 @@ module.exports = function (app) {
   });
 
   app.get('/api/users/:id', function (req, res) {
-    db.User.findById(req.params.id).then( function (dbUser) {
+    db.User.findById(req.params.id).then(function (dbUser) {
       res.json(dbUser);
     });
   });
@@ -29,9 +29,19 @@ module.exports = function (app) {
     });
   });
 
-  // app.put('/api/users/:id', function (req, res) {
+  app.delete('/api/users/:id', function (req, res) {
+    db.User.destroy({ where: { id: req.params.id } }).then(function (dbUser) {
+      res.json(dbUser);
+    });
+  });
 
-  // })
+  app.get('/api/users/:id/collections', function (req, res) {
+    db.Collection
+      .findAll({ where: { UserId: req.params.id } })
+      .then(function (dbCollection) {
+        res.json(dbCollection);
+      });
+  });
 
   // COLLECTIONS API CALLS
   app.get('/api/collections', function (req, res) {
@@ -53,6 +63,20 @@ module.exports = function (app) {
     });
   });
 
+  app.get('/api/collections/:id/items', function (req, res) {
+    db.Item
+      .findAll({ where: { CollectionId: req.params.id } })
+      .then(function (dbItem) {
+        res.json(dbItem);
+      });
+  });
+
+  app.delete('/api/collection/:id', function (req, res) {
+    db.Collection.destroy({ where: { id: req.params.id } }).then(function (dbCollection) {
+      res.json(dbCollection);
+    });
+  });
+
   // ITEMS API CALLSK
   app.get('/api/items', function (req, res) {
     db.Item.findAll({}).then(function (dbItems) {
@@ -69,6 +93,12 @@ module.exports = function (app) {
   app.post('/api/items', function (req, res) {
     // expects an object with properties 'name', 'imageUrl', 'description', 'UserId', 'CollectionId'
     db.Item.create(req.body).then(function (dbItem) {
+      res.json(dbItem);
+    });
+  });
+
+  app.delete('/api/items/:id', function (req, res) {
+    db.Item.destroy({ where: { id: req.params.id } }).then(function (dbItem) {
       res.json(dbItem);
     });
   });
