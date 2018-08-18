@@ -103,4 +103,30 @@ module.exports = function (app) {
     });
   });
 
+  // OPPORTUNITIES API CALLS
+  app.get('/api/opportunities', function (req, res) {
+    db.Opportunity.findAll({}).then(function (dbOp) {
+      res.json(dbOp);
+    });
+  });
+
+  app.get('/api/opportunities/:id', function (req, res) {
+    db.Opportunity.findById(req.params.id).then(function (dbOp) {
+      res.json(dbOp);
+    });
+  });
+
+  app.post('/api/opportunities', function (req, res) {
+    // expects an object with properties 'name', 'description', 'category', 'deadline' (date)
+    db.Opportunity.create(req.body).then(function (dbOp) {
+      res.json(dbOp);
+    });
+  });
+
+  app.delete('/api/opportunities/:id', function (req, res) {
+    db.Opportunity.destroy({ where: { id: req.params.id } }).then(function (dbOp) {
+      res.json(dbOp);
+    });
+  });
+
 };
