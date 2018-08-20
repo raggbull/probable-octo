@@ -12,7 +12,7 @@ module.exports = function(app) {
   });
 
   // Load example page and pass in an example by id
-  app.get('/opportunity/new', function(req, res) {
+  app.get('/opportunities/new', function(req, res) {
     res.render('add-opportunity');
   });
 

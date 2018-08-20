@@ -35,12 +35,6 @@ module.exports = function (app) {
     });
   });
 
-  app.put('/api/users/:id', function( req, res) {
-    db.User.update(req.body, {where: {id: req.params.id}}).then(function(dbUser) {
-      res.json(dbUser);
-    });
-  });
-
   app.get('/api/users/:id/collections', function (req, res) {
     db.Collection
       .findAll({ where: { UserId: req.params.id } })
@@ -83,13 +77,6 @@ module.exports = function (app) {
     });
   });
 
-  app.put('/api/collections/:id', function( req, res) {
-    // expects an object with properties 'name', 'description', 'UserId'
-    db.Collection.update(req.body, {where: {id: req.params.id}}).then(function(dbCollection) {
-      res.json(dbCollection);
-    });
-  });
-
   // ITEMS API CALLSK
   app.get('/api/items', function (req, res) {
     db.Item.findAll({}).then(function (dbItems) {
@@ -112,12 +99,6 @@ module.exports = function (app) {
 
   app.delete('/api/items/:id', function (req, res) {
     db.Item.destroy({ where: { id: req.params.id } }).then(function (dbItem) {
-      res.json(dbItem);
-    });
-  });
-
-  app.put('/api/items/:id', function( req, res) {
-    db.Item.update(req.body, {where: {id: req.params.id}}).then(function(dbItem) {
       res.json(dbItem);
     });
   });
@@ -145,12 +126,6 @@ module.exports = function (app) {
   app.delete('/api/opportunities/:id', function (req, res) {
     db.Opportunity.destroy({ where: { id: req.params.id } }).then(function (dbOp) {
       res.json(dbOp);
-    });
-  });
-
-  app.put('/api/opportunity/:id', function( req, res) {
-    db.Opportunity.update(req.body, {where: {id: req.params.id}}).then(function(dbOpportunity) {
-      res.json(dbOpportunity);
     });
   });
 
