@@ -12,8 +12,13 @@ module.exports = function(app) {
   });
 
   // Load example page and pass in an example by id
-  app.get('/add/opportunity', function(req, res) {
+  app.get('/opportunities/new', function(req, res) {
     res.render('add-opportunity');
+  });
+
+  // Load example page and pass in an example by id
+  app.get('/collections', function(req, res) {
+    res.render('collections');
   });
 
   // Render 404 page for any unmatched routes
