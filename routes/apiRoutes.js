@@ -7,27 +7,104 @@ var resources = {
   opportunities: 'Opportunity'
 };
 
+function paramToResourceKey(param) {
+  if (Object.keys(resources[param])) {
+    return resources[param];
+  }
+  return undefined;
+}
+
 module.exports = function (app) {
 
-  app.get('/api/:resource', function (req, res) {
-    if (Object.keys(resources).includes(req.params.resource)) {
-      var key = resources[req.params.resource];
-      db[key].findAll({}).then(data => res.json(data));
+  /*******************\
+  |  GENERAL ROUTING  |
+  \*******************/
 
+  // We can get rid of a lot of the repetition by generalizing how we interact
+  // with the different database objects.  This scheme may have to change when
+  // we introduce authentication...
+
+  app.get('/api/:resource', function (req, res) {
+    let key = paramToResourceKey(req.params.resource);
+    if (key) {
+      db[key].findAll({}).then(data => res.json(data));
     } else {
       res.status(404).send('Not Found');
     }
   });
 
   app.get('/api/:resource/:id', function (req, res) {
-    if (Object.keys(resources).includes(req.params.resource)) {
-      var key = resources[req.params.resource];
+    let key = paramToResourceKey(req.params.resource);
+    if (key) {
       db[key].findById(req.params.id).then(data => res.json(data));
-
     } else {
       res.status(404).send('Not Found');
     }
   });
+
+  app.post('/api/:resource', function (req, res) {
+    let key = paramToResourceKey(req.params.resource);
+    if (key) {
+      db[key]
+        .create(req.body)
+        .then(data => res.json(data))
+        .catch(err => res.status(500).send(`Create ${key} Error. \n${err}`));
+    } else {
+      res.status(404).send('Not Found');
+    }
+  });
+
+  app.put('/api/:resource/:id', function (req, res) {
+    let key = paramToResourceKey(req.params.resource);
+    if (key) {
+      db[key]
+        .update(req.body, { where: { id: req.params.id } })
+        .then(data => res.json(data))
+        .catch(err => res.status(500).send(err));
+    } else {
+      res.status(404).send('Not Found');
+    }
+  });
+
+  app.delete('/api/:resource/:id', function (req, res) {
+    let key = paramToResourceKey(req.params.resource);
+    if (key) {
+      db[key]
+        .destroy({ where: { id: req.params.id } })
+        .then(data => res.json(data))
+        .catch(err => res.status(500).send(err));
+    } else {
+      res.status(404).send('Not Found');
+    }
+  });
+
+  /*******************\
+  |  SPECIAL ROUTING  |
+  \*******************/
+
+  // These are particular patterns that will only be used for these routes.
+
+  app.get('/api/users/:id/collections', function (req, res) {
+    db.Collection
+      .findAll({ where: { UserId: req.params.id } })
+      .then(function (dbCollection) {
+        res.json(dbCollection);
+      });
+  });
+
+  app.get('/api/collections/:id/items', function (req, res) {
+    db.Item
+      .findAll({ where: { CollectionId: req.params.id } })
+      .then(function (dbItem) {
+        res.json(dbItem);
+      });
+  });
+
+  /**************\
+  |  OLD ROUTES  |
+  \**************/
+
+  // These are all the routes that would be used if we did not generalize the access logic above.
 
   // // USER API CALLS
   // app.get('/api/users', function (req, res) {
@@ -61,13 +138,6 @@ module.exports = function (app) {
   //   });
   // });
 
-  // app.get('/api/users/:id/collections', function (req, res) {
-  //   db.Collection
-  //     .findAll({ where: { UserId: req.params.id } })
-  //     .then(function (dbCollection) {
-  //       res.json(dbCollection);
-  //     });
-  // });
 
   // // COLLECTIONS API CALLS
   // app.get('/api/collections', function (req, res) {
@@ -89,13 +159,6 @@ module.exports = function (app) {
   //   });
   // });
 
-  // app.get('/api/collections/:id/items', function (req, res) {
-  //   db.Item
-  //     .findAll({ where: { CollectionId: req.params.id } })
-  //     .then(function (dbItem) {
-  //       res.json(dbItem);
-  //     });
-  // });
 
   // app.delete('/api/collection/:id', function (req, res) {
   //   db.Collection.destroy({ where: { id: req.params.id } }).then(function (dbCollection) {
