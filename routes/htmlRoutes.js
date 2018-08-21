@@ -11,6 +11,27 @@ module.exports = function(app) {
     });
   });
 
+  
+  app.get('/apply/:id', function(req, res) {
+    res.render('apply');
+  });
+
+  app.get('/sign-up'), function(req, res) {
+    res.render('sign-up');
+  });
+
+  app.get('/opportunities/:id,'), function(req, res) {
+    res.render('opportunities');
+  });
+
+  app.get('/user/:id'), function(req, res) {
+    res.render('user');
+  });
+
+  app.get('/admin/:id'), function(req, res) {
+    res.render('amin');
+  });
+
   // Load example page and pass in an example by id
   app.get('/example/:id', function(req, res) {
     db.Example.findOne({ where: { id: req.params.id } }).then(function(dbExample) {
