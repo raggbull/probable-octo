@@ -2,6 +2,10 @@ module.exports = function(sequelize, DataTypes) {
   var Collection = sequelize.define('Collection', {
     name: DataTypes.STRING,
     description: DataTypes.TEXT,
+    selected: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    }
   });
 
   Collection.associate = function(models) {
