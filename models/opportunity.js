@@ -3,7 +3,8 @@ module.exports = function(sequelize, DataTypes) {
     name: DataTypes.STRING,
     description: DataTypes.TEXT,
     category: DataTypes.STRING,
-    deadline: DataTypes.DATE
+    deadline: DataTypes.DATE,
+    selectedCollection: DataTypes.INTEGER
   });
 
   Opportunity.associate = function(models) {
