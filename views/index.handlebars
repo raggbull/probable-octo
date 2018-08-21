@@ -8,21 +8,17 @@
             <h2 class="headers">Opportunities</h2>
           </div>
         </div>
+
+        {{#each opportunities}} 
+        {{> opportunities/opportunity-block}} 
+        {{/each}} 
+        {{#unless opportunities}}
         <div class="row">
           <div class="col-md-12">
-            {{> opportunities/opportunity-block}}
+            <h2 class="bold">There are no opportunities available at this time!</h2>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-12">
-            {{> opportunities/opportunity-block}}
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            {{> opportunities/opportunity-block}}
-          </div>
-        </div>
+        {{/unless}}
       </div>
     </div>
     <div class="col-md-4">

@@ -1,11 +1,15 @@
-<div class="card">
-    <div class="card-header">
-        <h2 class="bold">{Opportunity from DB}</h2>
-    </div>
-    <div class="card-body">
-        {Opportunity description from DB}
-    </div>
-    <div class="card-footer text-muted">
-        Posted by: {Admin from DB} **JOIN**
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="bold">{{name}}</h2>
+            </div>
+            <div class="card-body">
+                {{description}}
+            </div>
+            <div class="card-footer text-muted">
+                Posted by: {{User.name}}
+            </div>
+        </div>
     </div>
 </div>

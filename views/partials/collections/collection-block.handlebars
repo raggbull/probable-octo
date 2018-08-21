@@ -2,10 +2,19 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h2 class="bold">{Collection from DB}</h2>
+                <h2 class="bold">{{name}}</h2>
             </div>
             <div class="card-body">
-                {Collection description from DB}
+                <div class="card-text">
+                    {{description}}
+                </div>
+                <p class="thin">Items in this collection</p>
+                <ol>
+                    {{#each Items}}
+                    <li>{{name}} | <a href="{{imageUrl}}" target="_blank">View the image</a></li>
+                    <p>Description: {{description}}</p>
+                    {{/each}}
+                </ol>
             </div>
         </div>
     </div>
