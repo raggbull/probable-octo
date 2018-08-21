@@ -33,12 +33,13 @@ module.exports = function(app) {
   });
 
   // Load example page and pass in an example by id
-  app.get('/example/:id', function(req, res) {
-    db.Example.findOne({ where: { id: req.params.id } }).then(function(dbExample) {
-      res.render('example', {
-        example: dbExample
-      });
-    });
+  app.get('/opportunities/new', function(req, res) {
+    res.render('add-opportunity');
+  });
+
+  // Load example page and pass in an example by id
+  app.get('/collections', function(req, res) {
+    res.render('collections');
   });
 
   // Render 404 page for any unmatched routes
