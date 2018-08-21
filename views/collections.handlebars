@@ -7,7 +7,13 @@
                         <h2>My Collections</h2>
                     </div>
                 </div>
-                {{> collections/collection-block}} {{> collections/collection-block}} {{> collections/collection-block}}
+                {{#unless collections}}
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="bold">There are no opportunities available at this time!</h2>
+                    </div>
+                </div>
+                {{/unless}} {{#each collections}} {{> collections/collection-block}} {{/each}}
             </div>
         </div>
         <div class="col-md-5" id="addCollectionForm">
@@ -57,10 +63,9 @@
                             <div class="form-group">
                                 <label for="category">Which Collection does this Item belong to?</label>
                                 <select class="form-control" id="category">
-                                    <option>Placeholder until {#each collection}</option>
-                                    </option>
-                                    {{#each Collection}}
-                                        <option>{{Collection}}</option>
+                                    <option>Please select a collection</option>
+                                    {{#each collections}}
+                                    <option>{{name}}</option>
                                     {{/each}}
                                 </select>
                             </div>

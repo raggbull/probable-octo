@@ -5,7 +5,7 @@ $(document).ready(function() {
     var newCol = {
       name: $('#collectionName').val().trim(),
       description: $('#collectionDescription').val().trim(),
-      UserID: 'CHANGE THIS WHEN AUTH0 IS WORKING'
+      UserID: 1
     };
     console.log(newCol);
     $.ajax('/api/collections/', {
@@ -14,6 +14,7 @@ $(document).ready(function() {
     }).then(
       function () {
         console.log('posted collection', newCol);
+        location.reload();
       }
     );
   });
@@ -25,8 +26,8 @@ $(document).ready(function() {
       name: $('#itemName').val().trim(),
       imageUrl: $('#imageUrl').val().trim(),
       description: $('#itemDescription').val().trim(),
-      UserID: 'CHANGE THIS WHEN AUTH0 IS WORKING',
-      CollectionId: 1
+      UserID: 1,
+      CollectionId: 2
     };
     console.log(newItem);
     $.ajax('/api/items/', {
@@ -35,6 +36,7 @@ $(document).ready(function() {
     }).then(
       function () {
         console.log('posted item', newItem);
+        location.reload();
       }
     );
   });
