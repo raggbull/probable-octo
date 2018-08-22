@@ -9,12 +9,13 @@ $(document).ready(function() {
       deadline: $('#deadline').val().trim()
     };
     console.log(newOp);
-    $.ajax('/api/opportunities/', {
+    $.ajax('/api/opportunities', {
       type: 'POST',
       data: newOp
     }).then(
       function () {
         console.log('posted opportunity', newOp);
+        window.location.replace('/');
       }
     );
   });
