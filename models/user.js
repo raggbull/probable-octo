@@ -6,7 +6,7 @@ module.exports = function(sequelize, DataTypes) {
         },
         bio: {
             type: DataTypes.TEXT,
-            allowNull: false
+            allowNull: true
         },
         email: {
             type: DataTypes.STRING,
