@@ -8,7 +8,12 @@
                 <div class="card-text">
                     {{description}}
                 </div>
-                <p class="thin">Items in this collection</p>
+                {{#if Items}}
+                    <p class="thin">Items in this collection</p>
+                {{/if}}
+                {{#unless Items}}
+                    <p class="thin">There are no items in this collection</p>
+                {{/unless}}
                 <ol>
                     {{#each Items}}
                     <li>{{name}} | <a href="{{imageUrl}}" target="_blank">View the image</a></li>
