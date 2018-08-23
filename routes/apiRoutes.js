@@ -7,6 +7,9 @@ var resources = {
   opportunities: 'Opportunity'
 };
 
+// for testing purposes we can toggle AUTH here.
+const AUTH_ACTIVATED = true;
+
 function paramToResourceKey(param) {
   if (Object.keys(resources[param])) {
     return resources[param];
@@ -14,15 +17,47 @@ function paramToResourceKey(param) {
   return undefined;
 }
 
-module.exports = function (app) {
+function isLoggedIn(req, res, next) {
+  if (!AUTH_ACTIVATED) {
+    return next();
+  }
+
+  if (req.isAuthenticated()) {
+    return next();
+  }
+
+  res.redirect('/login');
+}
+
+function isAdmin(req, res, next) {
+  if (!AUTH_ACTIVATED) {
+    return next();
+  }
+
+  if (req.isAuthenticated()) {
+    User.findById(req.user.id).then(dbUser => {
+      if (dbUser.permissions === 'admin') {
+        return next();
+      } else {
+        res.send('Need Admin permissions');
+      }
+    });
+  }
+}
+
+module.exports = function (app /*, passport */) {
 
   /*******************\
-  |  GENERAL ROUTING  |
-  \*******************/
+    |  GENERAL ROUTING  |
+    \*******************/
 
   // We can get rid of a lot of the repetition by generalizing how we interact
   // with the different database objects.  This scheme may have to change when
   // we introduce authentication...
+
+  app.get('/api/users/me', isLoggedIn, function (req, res) {
+    res.json({ id: req.user.id, name: req.user.name, email: req.user.email });
+  });
 
   app.get('/api/:resource', function (req, res) {
     let key = paramToResourceKey(req.params.resource);
@@ -42,7 +77,7 @@ module.exports = function (app) {
     }
   });
 
-  app.post('/api/:resource', function (req, res) {
+  app.post('/api/:resource', isLoggedIn, function (req, res) {
     let key = paramToResourceKey(req.params.resource);
     if (key) {
       db[key]
@@ -54,7 +89,7 @@ module.exports = function (app) {
     }
   });
 
-  app.put('/api/:resource/:id', function (req, res) {
+  app.put('/api/:resource/:id', isAdmin, function (req, res) {
     let key = paramToResourceKey(req.params.resource);
     if (key) {
       db[key]
