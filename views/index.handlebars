@@ -9,7 +9,13 @@
             <hr />
           </div>
         </div>
-
+        {{!-- ACTIVE USER INFO --}}
+        {{#if activeUser}}
+        {{activeUser.name}}
+        {{activeUser.id}}
+        {{activeUser.bio}}
+        {{/if}}
+        {{!-- // ACTIVE USER INFO --}}
         {{#each opportunities}} {{> opportunities/opportunity-block}} {{/each}} {{#unless opportunities}}
         <div class="row">
           <div class="col-md-12">
