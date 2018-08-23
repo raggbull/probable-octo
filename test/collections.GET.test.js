@@ -49,36 +49,3 @@ describe('GET /api/collections', function () {
     });
   });
 });
-
-describe('POST /api/collections', function () {
-  // Before each test begins, create a new request server for testing
-  // & delete all examples from the db
-  beforeEach(function () {
-    request = chai.request(server);
-    return db.sequelize.sync({ force: true });
-  });
-
-  const reqBody = {
-    name: 'Example Collection1',
-    description: 'This is the Collection1'
-  };
-
-  request
-    .post('/api/collections')
-    .send(reqBody)
-    .end(function (err, res) {
-      let responseStatus = res.status;
-      let responseBody = res.body;
-
-      expect(err).to.be.null;
-
-      expect(responseStatus).to.equal(200);
-
-      expect(responseBody)
-        .to.be.an('object')
-        .that.includes(reqBody);
-
-      done();
-    });
-
-});
