@@ -26,7 +26,7 @@ function isLoggedIn(req, res, next) {
     return next();
   }
 
-  res.redirect('/signin');
+  res.redirect('/login');
 }
 
 function isAdmin(req, res, next) {

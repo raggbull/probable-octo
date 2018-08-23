@@ -1,17 +1,17 @@
 
 module.exports = function (app, passport) {
-  app.get('/signup', function (req, res) {
-    res.render('signup', {});
-  });
+  // app.get('/signup', function (req, res) {
+  //   res.render('signup', {});
+  // });
 
-  app.post('/signup', passport.authenticate('local-signup', {
+  app.post('/register', passport.authenticate('local-signup', {
     successRedirect: '/',
-    failureRedirect: '/signup'
+    failureRedirect: '/register'
   }));
 
-  app.post('/signin', passport.authenticate('local-signin', {
+  app.post('/login', passport.authenticate('local-signin', {
     successRedirect: '/',
-    failureRedirect: '/signin'
+    failureRedirect: '/login'
   }));
 
   // function isLoggedIn(req, res, next) {
