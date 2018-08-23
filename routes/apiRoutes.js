@@ -29,6 +29,22 @@ function isLoggedIn(req, res, next) {
     res.redirect('/signin');
 }
 
+function isAdmin(req, res, next) {
+    if (!AUTH_ACTIVATED) {
+        return next();
+    }
+
+    if (req.isAuthenticated()) {
+        User.findById(req.user.id).then(dbUser => {
+            if (dbUser.permissions === 'admin') {
+                return next();
+            } else {
+                res.send('Need Admin permissions');
+            }
+        });
+    }
+}
+
 module.exports = function (app /*, passport */) {
 
     /*******************\
@@ -61,7 +77,7 @@ module.exports = function (app /*, passport */) {
         }
     });
 
-    app.post('/api/:resource', function (req, res) {
+    app.post('/api/:resource', isLoggedIn, function (req, res) {
         let key = paramToResourceKey(req.params.resource);
         if (key) {
             db[key]
@@ -73,7 +89,7 @@ module.exports = function (app /*, passport */) {
         }
     });
 
-    app.put('/api/:resource/:id', function (req, res) {
+    app.put('/api/:resource/:id', isAdmin, function (req, res) {
         let key = paramToResourceKey(req.params.resource);
         if (key) {
             db[key]

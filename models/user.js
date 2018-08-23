@@ -21,7 +21,7 @@ module.exports = function(sequelize, DataTypes) {
             defaultValue: 'active'
         },
         permissions: {
-            type: Datatypes.ENUM('user', 'admin'),
+            type: DataTypes.ENUM('user', 'admin'),
             defaultValue: 'user'
         }
     });
