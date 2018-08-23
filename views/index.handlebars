@@ -1,4 +1,4 @@
-<div class="container" id="main">
+<div class="container main">
 
   <div class="row">
     <div class="col-md-8">
@@ -6,13 +6,11 @@
         <div class="row">
           <div class="col-md-12">
             <h2 class="headers">Opportunities</h2>
+            <hr />
           </div>
         </div>
 
-        {{#each opportunities}} 
-        {{> opportunities/opportunity-block}} 
-        {{/each}} 
-        {{#unless opportunities}}
+        {{#each opportunities}} {{> opportunities/opportunity-block}} {{/each}} {{#unless opportunities}}
         <div class="row">
           <div class="col-md-12">
             <h2 class="bold">There are no opportunities available at this time!</h2>
@@ -29,11 +27,11 @@
               <div class="card-header">
                 <h3 class="thin" style="font-size: 1.4rem">Upcoming Opportunities</h3>
               </div>
-              <div class="card-body">
-                <div class="upcoming-box"></div>
-                <div class="upcoming-box"></div>
-                <div class="upcoming-box"></div>
-              </div>
+              <ul class="list-group list-group-flush">
+                {{#each recentOpportunities}}
+                <li class="list-group-item bold" style="font-size: 1rem"><a href="/opportunity/{{id}}">{{name}}</a></li>
+                {{/each}}
+              </ul>
             </div>
           </div>
         </div>
@@ -44,41 +42,12 @@
                 <div class="card-header">
                   <h3 class="thin" style="font-size: 1.4rem">Recent Galleries</h3>
                 </div>
-                <div class="card-body">
-                  <div class="upcoming-box"></div>
-                  <div class="upcoming-box"></div>
-                  <div class="upcoming-box"></div>
-                </div>
+                <ul class="list-group list-group-flush">
+                  {{#each users}}
+                  <li class="list-group-item bold" style="font-size: 1rem">{{name}}</li>
+                  {{/each}}
+                </ul>
               </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="login">
-              <!-- form card login -->
-              <div class="card" id="login-card">
-                <div class="card-header">
-                  <h3 class="thin">Login</h3>
-                </div>
-                <div class="card-body">
-                  <form class="form" role="form" autocomplete="off" id="formLogin" novalidate="" method="POST">
-                    <div class="form-group">
-                      <label for="uname1">Username</label>
-                      <input type="text" class="form-control form-control-lg rounded-0" name="uname1" id="uname1" required="">
-                      <div class="invalid-feedback">Oops, you missed this one.</div>
-                    </div>
-                    <div class="form-group">
-                      <label>Password</label>
-                      <input type="password" class="form-control form-control-lg rounded-0" id="pwd1" required="" autocomplete="new-password">
-                      <div class="invalid-feedback">Enter your password too!</div>
-                    </div>
-                    <button type="submit" class="btn btn-light btn-lg float-right" id="btnLogin">Login</button>
-                  </form>
-                </div>
-                <!--/card-block-->
-              </div>
-              <!-- /form card login -->
             </div>
           </div>
         </div>
