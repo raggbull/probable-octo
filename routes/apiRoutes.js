@@ -56,7 +56,7 @@ module.exports = function (app /*, passport */) {
   // we introduce authentication...
 
   app.get('/api/users/me', isLoggedIn, function (req, res) {
-    res.json({ id: req.user.id, name: req.user.name, email: req.user.email });
+    res.json({ id: req.user.id, name: req.user.name, email: req.user.email, permissions: req.user.permissions });
   });
 
   app.get('/api/:resource', function (req, res) {
