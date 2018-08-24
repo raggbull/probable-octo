@@ -137,3 +137,9 @@ form {
   background-size: 100% 95%;
   padding: 8px 0;
 }
+#logout {
+  margin-left: 10px;
+}
+#logout:hover {
+  color: red;
+}

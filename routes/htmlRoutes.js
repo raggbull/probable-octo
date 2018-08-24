@@ -8,6 +8,10 @@ module.exports = function (app) {
   app.get('/register', function(req, res) {
     res.render('register');
   });
+  app.get('/logout', function(req, res){
+    req.logout();
+    res.redirect('/');
+  });
   // Load index page
   app.get('/', function (req, res) {
     db.Opportunity.findAll({
@@ -18,7 +22,8 @@ module.exports = function (app) {
           var hbsObj = {
             opportunities: dbOpportunities,
             recentOpportunities: dbRecentOp,
-            users: dbUsers
+            users: dbUsers,
+            activeUser: req.user
           };
           console.log(hbsObj);
           res.render('index', hbsObj);
@@ -27,9 +32,13 @@ module.exports = function (app) {
     });
   });
 
-  // Render Form for adding an opportunity.  Require ADMIN permissions
-  app.get('/opportunities/new', auth.isAdmin, function (req, res) {
-    res.render('add-opportunity');
+  // Show the form to add opportunities.  Uncomment auth.isAdmin to require auth.
+  app.get('/opportunities/new', /* auth.isAdmin, */ function (req, res) {
+    var hbsObj = {
+      activeUser: req.user,
+      permissions: req.user.permissions
+    };
+    res.render('add-opportunity', hbsObj);
   });
 
   // Load example page and pass in an example by id
@@ -38,7 +47,9 @@ module.exports = function (app) {
       include: [db.Item]
     }).then(function (dbCollections) {
       var hbsObj = {
-        collections: dbCollections
+        collections: dbCollections,
+        activeUser: req.user,
+        permissions: req.user.permissions
       };
       res.render('collections', hbsObj);
     });
@@ -54,7 +65,9 @@ module.exports = function (app) {
       db.Collection.findAll({}).then(function (dbCollections) {
         var hbsObj = {
           opportunity: dbApply,
-          collections: dbCollections
+          collections: dbCollections,
+          activeUser: req.user,
+          permissions: req.user.permissions
         };
         console.log(hbsObj);
         res.render('opportunity-details', hbsObj);
@@ -72,7 +85,9 @@ module.exports = function (app) {
       db.Collection.findAll({}).then(function (dbCollections) {
         var hbsObj = {
           opportunity: dbApply,
-          collections: dbCollections
+          collections: dbCollections,
+          activeUser: req.user,
+          permissions: req.user.permissions
         };
         console.log(hbsObj);
         res.render('apply', hbsObj);
