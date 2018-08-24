@@ -5,7 +5,7 @@ $(document).ready(function() {
     var newCol = {
       name: $('#collectionName').val().trim(),
       description: $('#collectionDescription').val().trim(),
-      UserID: 1
+      UserID: 1 // this can be anything.. we reset it server-side based on the session token.
     };
     console.log(newCol);
     $.ajax('/api/collections/', {
@@ -26,8 +26,8 @@ $(document).ready(function() {
       name: $('#itemName').val().trim(),
       imageUrl: $('#imageUrl').val().trim(),
       description: $('#itemDescription').val().trim(),
-      UserID: 1,
-      CollectionId: 2
+      UserID: 1, // this can be anything.. we reset it server-side based on the session token.
+      CollectionId: $('#collection-select').val()
     };
     console.log(newItem);
     $.ajax('/api/items/', {

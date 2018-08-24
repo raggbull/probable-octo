@@ -7,7 +7,7 @@ var db = require('../models');
 chai.use(chaiHttp);
 let request;
 
-describe('POST /api/collections', function () {
+describe.skip('POST /api/collections', function () {
   // Before each test begins, create a new request server for testing
   // & delete all examples from the db
   beforeEach(function () {
