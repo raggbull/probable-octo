@@ -1,7 +1,7 @@
 const db = require('../models');
 const auth = require('../config/authHelpers');
 
-module.exports = function (app /*, passport */) {
+module.exports = function (app) {
 
   /******************\
   |  PUBLIC ROUTING  |
@@ -84,8 +84,8 @@ module.exports = function (app /*, passport */) {
 
   app.post('/api/collections', auth.isLoggedIn, function (req, res) {
     // expects an object with properties 'name', 'description', 'UserId'
-    // we can set 'UserId' with req.user.id
-    // TODO: Add validation to ensure req.body has proper structure
+    // we can set 'UserId' with req.user.id to ensure it's created correctly.
+    req.body.UserId = req.user.id;
     db.Collection.create(req.body).then(function (dbCollection) {
       res.json(dbCollection);
     });
@@ -106,27 +106,34 @@ module.exports = function (app /*, passport */) {
 
   app.put('/api/collections/:id', auth.isLoggedIn, function (req, res) {
     // expects an object with properties 'name', 'description', 'UserId'
-    // we can set 'UserId' with req.user.id
     // TODO: Add validation to ensure req.body has proper structure
+    // TODO: We probably also want to prevent people assigning whatever they want in the object.
+    // --- that would allow you to assign a collection to someone else.
     db.Collection.update(req.body, { where: { id: req.params.id } }).then(function (dbCollection) {
       res.json(dbCollection);
     });
   });
 
+  app.put('/api/collections/:id/apply/:opID', auth.isLoggedIn, function (req, res) {
+    db.Collection
+      .update({ OpportunityId: req.params.opID }, { where: { id: req.params.id } })
+      .then(dbCollection => res.json(dbCollection));
+  });
+
   app.post('/api/items', auth.isLoggedIn, function (req, res) {
     // expects an object with properties 'name', 'imageUrl', 'description', 'UserId', 'CollectionId'
-    // we can set 'UserId' with req.user.id
-    // TODO: Add validation to ensure req.body has proper structure
+    // we can set 'UserId' with req.user.id to ensure it's created correctly.
+    req.body.UserId = req.user.id;
     db.Item.create(req.body).then(function (dbItem) {
       res.json(dbItem);
     });
   });
 
-  app.delete('/api/items/:id', function (req, res) {
-    db.Item.destroy({ where: { id: req.params.id } }).then(function (dbItem) {
-      res.json(dbItem);
-    });
-  });
+  // app.delete('/api/items/:id', function (req, res) {
+  //   db.Item.destroy({ where: { id: req.params.id } }).then(function (dbItem) {
+  //     res.json(dbItem);
+  //   });
+  // });
 
   app.put('/api/items/:id', auth.isLoggedIn, function (req, res) {
     // TODO: Add validation to ensure req.body has proper structure
@@ -174,6 +181,8 @@ module.exports = function (app /*, passport */) {
   app.post('/api/opportunities', auth.isAdmin, function (req, res) {
     // expects an object with properties 'name', 'description', 'category', 'deadline' (date)
     // TODO: Add validation to ensure req.body has proper structure
+    // we can set 'UserId' with req.user.id to ensure it's created correctly.
+    req.body.UserId = req.user.id;
     db.Opportunity.create(req.body).then(function (dbOp) {
       res.json(dbOp);
     });

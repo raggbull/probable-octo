@@ -8,10 +8,7 @@ module.exports = function (app) {
   app.get('/register', function(req, res) {
     res.render('register');
   });
-  app.get('/logout', function(req, res){
-    req.logout();
-    res.redirect('/');
-  });
+
   // Load index page
   app.get('/', function (req, res) {
     db.Opportunity.findAll({
@@ -55,7 +52,7 @@ module.exports = function (app) {
     });
   });
   // details route to get the 'selected' opportunity and display more details
-  app.get('/opportunity/:id', function (req, res) {
+  app.get('/opportunities/:id', function (req, res) {
     db.Opportunity.findOne({
       where: {
         id: req.params.id
@@ -75,7 +72,7 @@ module.exports = function (app) {
     });
   });
   // apply route to get the 'selected' opportunity and 'your' collections
-  app.get('/opportunity/:id/apply', function (req, res) {
+  app.get('/opportunities/:id/apply', function (req, res) {
     db.Opportunity.findOne({
       where: {
         id: req.params.id
