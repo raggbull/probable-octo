@@ -1,5 +1,5 @@
-
 // for testing purposes we can toggle AUTH here.
+// WARN: Setting this to false might break some things that require req.user obj
 const AUTH_ACTIVATED = true;
 
 function isLoggedIn(req, res, next) {
