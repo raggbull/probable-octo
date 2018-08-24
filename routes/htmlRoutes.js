@@ -1,4 +1,5 @@
-var db = require('../models');
+const db = require('../models');
+const auth = require('../config/authHelpers');
 
 module.exports = function (app) {
   app.get('/login', function(req, res) {
@@ -31,8 +32,8 @@ module.exports = function (app) {
     });
   });
 
-  // Load example page and pass in an example by id
-  app.get('/opportunities/new', function (req, res) {
+  // Show the form to add opportunities.  Uncomment auth.isAdmin to require auth.
+  app.get('/opportunities/new', /* auth.isAdmin, */ function (req, res) {
     var hbsObj = {
       activeUser: req.user,
       permissions: req.user.permissions
