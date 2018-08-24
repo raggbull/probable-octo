@@ -1,4 +1,5 @@
-var db = require('../models');
+const db = require('../models');
+const auth = require('../config/authHelpers');
 
 module.exports = function (app) {
   app.get('/login', function(req, res) {
@@ -26,8 +27,8 @@ module.exports = function (app) {
     });
   });
 
-  // Load example page and pass in an example by id
-  app.get('/opportunities/new', function (req, res) {
+  // Render Form for adding an opportunity.  Require ADMIN permissions
+  app.get('/opportunities/new', auth.isAdmin, function (req, res) {
     res.render('add-opportunity');
   });
 
