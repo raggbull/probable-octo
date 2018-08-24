@@ -62,6 +62,10 @@ module.exports = function (app) {
   /************************\
   |  AUTHENTICATED ROUTES  |
   \************************/
+  // DONE: Ensure POST routes use req.user object to set UserId where needed
+  // TODO: Protect PUT routes so that only the owner of an item/collection can update it (or admin)
+  // TODO: Protect DELETE routes so that only owner or admin can delete items/collections
+  // TODO: (low priority) Make admin bypass for POST routes so they can mae stuff on account of other users
 
   app.get('/api/users/me', auth.isLoggedIn, function (req, res) {
     res.json({
@@ -92,6 +96,7 @@ module.exports = function (app) {
   });
 
 
+  // this tries to only allow for a user to delete their own collection (unless admin)
   app.delete('/api/collection/:id', auth.isLoggedIn, function (req, res) {
     let conditions = { where: { id: req.params.id } };
 
@@ -129,11 +134,11 @@ module.exports = function (app) {
     });
   });
 
-  // app.delete('/api/items/:id', function (req, res) {
-  //   db.Item.destroy({ where: { id: req.params.id } }).then(function (dbItem) {
-  //     res.json(dbItem);
-  //   });
-  // });
+  app.delete('/api/items/:id', auth.isLoggedIn, function (req, res) {
+    db.Item.destroy({ where: { id: req.params.id } }).then(function (dbItem) {
+      res.json(dbItem);
+    });
+  });
 
   app.put('/api/items/:id', auth.isLoggedIn, function (req, res) {
     // TODO: Add validation to ensure req.body has proper structure
